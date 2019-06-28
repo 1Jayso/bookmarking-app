@@ -39,7 +39,7 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log In')
 
-import models
+from my_project import models
 
 class SignupForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),

@@ -1,48 +1,11 @@
-import os
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-from flask_moment import Moment
-from flask_login import LoginManager, login_required, login_user, current_user, logout_user
-# from forms import BookmarkForm, LoginForm
-import forms
+from flask_login import login_required, login_user, current_user, logout_user
+# from .forms import BookmarkForm, LoginForm, SignupForm
+from my_project import forms
+from my_project import app, db, login_manager
+from my_project import models
 
 
-# Flask instance
-app = Flask(__name__)
-
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-# app.logger.setLevel(DEBUG)
-
-
-# Database Configuration
-app.config ['SECRET_KEY'] = '\xe6\xb5V\x95>\x9e_z\xa2k\xedH\x81\xc6\xe7\x96\x9f6\xc7\xf0\xa8\x05o{'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' +os.path.join(basedir, 'thermos.db')
-db = SQLAlchemy(app)
-# bookmarks = []
-# def store_bookmarks(url, description):
-#     bookmarks.append(dict(
-#     url = url,
-#     description = description,
-#     user = "Joseph",
-#     date = datetime.utcnow()
-# ))
-import models
-
-# def new_bookmarks(num):
-#     return sorted(bookmarks, key=lambda bm: bm['date'], reverse= True)[:num]
-
-# Fake login
-
-#Configuration for authentication
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view ="login"
-login_manager.init_app(app)
-
-moment = Moment(app)
 
 @login_manager.user_loader
 def load_user(userid):
@@ -66,6 +29,7 @@ def add():
         # db.session.add(bm)
         current_db_sessions = db.session.object_session(bm)
         current_db_sessions.add(bm)
+        # db.session.add(bm)
         db.session.commit()
         # store_bookmarks(url, description)
         flash("Stored '{}'".format(bm.description))
@@ -148,6 +112,7 @@ def page_not_found(e):
     # return render_template('add.html')
 
 if __name__ == '__main__':
+
     app.run(debug=True)
 
 

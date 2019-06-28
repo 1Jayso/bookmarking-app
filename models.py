@@ -2,7 +2,9 @@ from datetime import datetime
 from sqlalchemy import desc
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
-from views import db
+from my_project import db
+
+
 
 tags = db.Table('bookmark_tag',
     db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')),
