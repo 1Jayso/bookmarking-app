@@ -18,7 +18,7 @@ class Bookmark(db.Model):
     date = db.Column(db.DateTime, default=datetime.utcnow)
     description = db.Column(db.String(300))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    _tags = db.relationship('Tag', secondary=tags,
+    _tags = db.relationship('Tag', secondary=tags, lazy='joined',
                             backref=db.backref('bookmarks', lazy='dynamic'))
 
     @staticmethod
